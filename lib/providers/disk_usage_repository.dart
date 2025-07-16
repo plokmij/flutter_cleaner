@@ -23,7 +23,7 @@ class DiskUsageRepository {
       '-s',
       '-k',
       '{}',
-      '+'
+      '+',
     ];
     final process = await Process.run(
       executable,

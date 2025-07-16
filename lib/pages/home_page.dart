@@ -151,10 +151,9 @@ class ScanPageHeader extends StatelessWidget {
           const SizedBox(
             width: 18,
           ),
-
           PushButton(
-            buttonSize: ButtonSize.large,
-            isSecondary: true,
+            controlSize: ControlSize.large,
+            secondary: true,
             color: Colors.white,
             child: const Text('Choose Folder to scan'),
             onPressed: () async {
@@ -165,7 +164,7 @@ class ScanPageHeader extends StatelessWidget {
                 appNotifier.setCurrentDirectory(
                   directoryPath: selectedDirectory,
                 );
-                ref.read(diskUsageNotifierProvider.notifier).scan();
+                await ref.read(diskUsageNotifierProvider.notifier).scan();
               }
             },
           ),
@@ -175,20 +174,21 @@ class ScanPageHeader extends StatelessWidget {
           Expanded(child: Text(appState.currentDirectory)),
           const SizedBox(width: 8),
           MacosIconButton(
-              backgroundColor: Colors.transparent,
-              icon: const MacosIcon(
+            backgroundColor: Colors.transparent,
+            icon: const MacosIcon(
 //                        size: 32,
-                CupertinoIcons.refresh,
-              ),
-              shape: BoxShape.circle,
-              onPressed: () =>
-                  ref.read(diskUsageNotifierProvider.notifier).scan()),
+              CupertinoIcons.refresh,
+            ),
+            shape: BoxShape.circle,
+            onPressed: () =>
+                ref.read(diskUsageNotifierProvider.notifier).scan(),
+          ),
           const SizedBox(width: 8),
           Text('${totalSize.toMegaBytes} - ${selectedSize.toMegaBytes}'),
           const SizedBox(width: 8),
           PushButton(
-            buttonSize: ButtonSize.large,
-            isSecondary: true,
+            controlSize: ControlSize.large,
+            secondary: true,
             color: Colors.white,
             onPressed: selectedRecordCount == 0
                 ? null
