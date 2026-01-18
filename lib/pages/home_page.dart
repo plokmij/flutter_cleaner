@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:macos_ui/macos_ui.dart';
 
@@ -74,7 +73,6 @@ class ToggleSidebarButton extends StatelessWidget {
       icon: const MacosIcon(
         CupertinoIcons.sidebar_left,
         size: 40,
-        color: CupertinoColors.black,
       ),
       onPressed: () {
         MacosWindowScope.of(context).toggleSidebar();
@@ -98,19 +96,38 @@ class RecordsView extends StatelessWidget {
       itemCount: records.length,
       itemBuilder: (_, index) {
         final record = records[index];
-        return Material(
-          child: CheckboxListTile(
-            value: record.isSelected,
-            title: Text(
-              record.directoryPath,
-            ),
-            subtitle: Text(record.size.toMegaBytes),
-            controlAffinity: ListTileControlAffinity.leading,
-            onChanged: (value) {
-              ref
-                  .read(diskUsageNotifierProvider.notifier)
-                  .selectRecord(index, value);
-            },
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Row(
+            children: [
+              MacosCheckbox(
+                value: record.isSelected,
+                onChanged: (value) {
+                  ref
+                      .read(diskUsageNotifierProvider.notifier)
+                      .selectRecord(index, value);
+                },
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      record.directoryPath,
+                      style: MacosTheme.of(context).typography.body,
+                    ),
+                    Text(
+                      record.size.toMegaBytes,
+                      style: MacosTheme.of(context).typography.subheadline.copyWith(
+                            color: MacosColors.secondaryLabelColor
+                                .resolveFrom(context),
+                          ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         );
       },
@@ -134,19 +151,16 @@ class ScanPageHeader extends StatelessWidget {
     final totalSize = ref.watch(totalSizeProvider);
     final selectedSize = ref.watch(selectedSizeProvider);
     return Container(
-      color: Colors.blueGrey[100],
+      color: MacosTheme.of(context).canvasColor,
       padding: const EdgeInsets.fromLTRB(12, 20, 20, 20),
       child: Row(
         children: [
           const SizedBox(
             width: 2,
           ),
-          Material(
-            child: Checkbox(
-              value: appState.selectAllBox,
-              onChanged: appNotifier.updateChecked,
-              tristate: true,
-            ),
+          MacosCheckbox(
+            value: appState.selectAllBox ?? false,
+            onChanged: (value) => appNotifier.updateChecked(value),
           ),
           const SizedBox(
             width: 18,
@@ -154,7 +168,6 @@ class ScanPageHeader extends StatelessWidget {
           PushButton(
             controlSize: ControlSize.large,
             secondary: true,
-            color: Colors.white,
             child: const Text('Choose Folder to scan'),
             onPressed: () async {
               final userHomeDirectory = Platform.environment['HOME'];
@@ -174,9 +187,7 @@ class ScanPageHeader extends StatelessWidget {
           Expanded(child: Text(appState.currentDirectory)),
           const SizedBox(width: 8),
           MacosIconButton(
-            backgroundColor: Colors.transparent,
             icon: const MacosIcon(
-//                        size: 32,
               CupertinoIcons.refresh,
             ),
             shape: BoxShape.circle,
@@ -189,7 +200,6 @@ class ScanPageHeader extends StatelessWidget {
           PushButton(
             controlSize: ControlSize.large,
             secondary: true,
-            color: Colors.white,
             onPressed: selectedRecordCount == 0
                 ? null
                 : () async {

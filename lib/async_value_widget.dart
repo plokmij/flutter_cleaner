@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:macos_ui/macos_ui.dart';
 
@@ -25,8 +25,9 @@ class ErrorMessageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       errorMessage,
-      style:
-          Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.red),
+      style: MacosTheme.of(context).typography.title1.copyWith(
+            color: MacosColors.systemRedColor.resolveFrom(context),
+          ),
     );
   }
 }

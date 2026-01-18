@@ -20,7 +20,6 @@ class SettingsPage extends ConsumerWidget {
               icon: const MacosIcon(
                 CupertinoIcons.sidebar_left,
                 size: 40,
-                color: CupertinoColors.black,
               ),
               onPressed: () {
                 MacosWindowScope.of(context).toggleSidebar();
