@@ -20,7 +20,7 @@ class _MainViewState extends ConsumerState<MainView> {
   @override
   void initState() {
     Future<void>.delayed(const Duration(milliseconds: 100), () {
-      final currentDirectory = ref.watch(appNotifierProvider).currentDirectory;
+      final _ = ref.watch(appNotifierProvider).currentDirectory;
       ref.read(diskUsageNotifierProvider.notifier).scan();
     });
     super.initState();
