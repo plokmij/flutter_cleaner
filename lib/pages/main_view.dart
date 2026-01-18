@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:macos_ui/macos_ui.dart';
 
@@ -20,7 +19,7 @@ class _MainViewState extends ConsumerState<MainView> {
   @override
   void initState() {
     Future<void>.delayed(const Duration(milliseconds: 100), () {
-      final currentDirectory = ref.watch(appNotifierProvider).currentDirectory;
+      final _ = ref.watch(appNotifierProvider).currentDirectory;
       ref.read(diskUsageNotifierProvider.notifier).scan();
     });
     super.initState();
@@ -31,9 +30,6 @@ class _MainViewState extends ConsumerState<MainView> {
     final appState = ref.watch(appNotifierProvider);
     return MacosWindow(
       sidebar: Sidebar(
-        decoration: BoxDecoration(
-          color: Colors.grey.shade200,
-        ),
         minWidth: 200,
         bottom: MacosListTile(
           leading: const MacosIcon(CupertinoIcons.app_badge),

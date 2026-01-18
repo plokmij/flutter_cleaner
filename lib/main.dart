@@ -37,10 +37,28 @@ class MainApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // Custom dark theme with lighter surfaces for better usability
+    final darkTheme = MacosThemeData.dark().copyWith(
+      // Lighter canvas background (default is RGB 40,40,40)
+      canvasColor: const Color.fromRGBO(56, 56, 56, 1.0),
+      // Lighter popup menus
+      popupButtonTheme: const MacosPopupButtonThemeData(
+        popupColor: Color.fromRGBO(50, 50, 50, 1.0),
+      ),
+      // Lighter pulldown menus
+      pulldownButtonTheme: const MacosPulldownButtonThemeData(
+        pulldownColor: Color.fromRGBO(50, 50, 50, 1.0),
+      ),
+      // Lighter search results background
+      searchFieldTheme: const MacosSearchFieldThemeData(
+        resultsBackgroundColor: Color.fromRGBO(50, 50, 50, 1.0),
+      ),
+    );
+
     return MacosApp(
       title: 'Flutter Cleaner',
       theme: MacosThemeData.light(),
-      darkTheme: MacosThemeData.dark(),
+      darkTheme: darkTheme,
       themeMode: ThemeMode.system,
       home: const MainView(),
       debugShowCheckedModeBanner: false,
